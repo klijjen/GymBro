@@ -1,0 +1,23 @@
+DROP TABLE personal_records CASCADE;
+
+CREATE OR REPLACE VIEW weight_records AS
+SELECT
+    s.workout_exercise_id,
+    we.workout_id,
+    we.exercise_id,
+    u.id AS user_id,
+    e.name AS exercise_name,
+    MAX(s.weight_kg) AS record_value,
+    MAX(s.weight_kg) AS current_value,
+    w.start_time AS date_achieved,
+    'WEIGHT' AS record_type
+FROM
+    sets s
+        JOIN workout_exercises we ON s.workout_exercise_id = we.id
+        JOIN workouts w ON we.workout_id = w.id
+        JOIN users u ON w.user_id = u.id
+        JOIN exercises e ON we.exercise_id = e.id
+WHERE
+    s.weight_kg IS NOT NULL
+GROUP BY
+    s.workout_exercise_id, we.workout_id, we.exercise_id, u.id, e.name, w.start_time;

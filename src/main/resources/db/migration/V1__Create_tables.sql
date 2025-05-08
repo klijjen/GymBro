@@ -1,0 +1,5 @@
+CREATE DATABASE gymbro;
+-- Пользователи (users) → Тренировки (workouts) → Упражнения на тренировке (workout_exercises) → Подходы (sets)
+--                      |
+--                      v
+--                  Упражнения (exercises)
