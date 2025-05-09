@@ -7,11 +7,16 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public record WorkoutExerciseCreateDto(
-        @NotNull
+        @NotNull(message = "ID упражнения обязательно")
         Long exerciseId,
-        @Positive
-        int orderIndex,
-        @Size(max = 1000, message = "Заметка не может содержать больше 1000 символов")
+
+        @NotNull(message = "Порядковый номер обязателен")
+        @Positive(message = "Порядковый номер должен быть положительным")
+        Long orderIndex,
+
+        @Size(max = 500, message = "Максимум 500 символов")
         String notes,
+
+        @Size(min = 1, message = "Должен быть хотя бы один подход")
         List<SetCreateDto> sets
 ) {}
