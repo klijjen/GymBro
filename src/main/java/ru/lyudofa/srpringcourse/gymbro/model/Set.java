@@ -28,9 +28,6 @@ public class Set {
     @Column(precision = 3, scale = 1)
     private Double rpe;
 
-    @Column(name = "rest_interval")
-    private Duration restInterval;
-
     @Column(columnDefinition = "TEXT")
     private String notes;
 

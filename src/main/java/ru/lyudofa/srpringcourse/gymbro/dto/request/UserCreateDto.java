@@ -7,10 +7,10 @@ import jakarta.validation.constraints.Size;
 
 public record UserCreateDto(
         @NotBlank
-        @Size(min = 4, max = 50)
+        @Size(min = 4, max = 50, message = "Имя должно быть от 4 до 50 символов")
         String name,
 
-        @Email
+        @Email(message = "Некорректный формат email")
         String email,
 
         @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{8,}$",

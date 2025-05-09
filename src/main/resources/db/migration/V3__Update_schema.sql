@@ -1,4 +1,5 @@
 ALTER TABLE workouts DROP COLUMN updated_at;
 DROP TABLE tags CASCADE ;
 DROP TABLE exercise_tags CASCADE;
+ALTER TABLE sets DROP COLUMN rest_interval;
 

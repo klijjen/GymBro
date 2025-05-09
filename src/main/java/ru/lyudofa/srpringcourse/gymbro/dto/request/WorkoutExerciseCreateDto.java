@@ -6,12 +6,12 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-public record WorkoutExerciseDto(
+public record WorkoutExerciseCreateDto(
         @NotNull
         Long exerciseId,
         @Positive
         int orderIndex,
-        @Size(max = 500)
+        @Size(max = 1000, message = "Заметка не может содержать больше 1000 символов")
         String notes,
-        List<ExerciseSetDto> sets
+        List<SetCreateDto> sets
 ) {}
