@@ -14,17 +14,17 @@ import java.util.Optional;
 public interface WorkoutExerciseRepository extends JpaRepository<WorkoutExercise, Long> {
     List<WorkoutExercise> findByWorkoutId(Long workoutId);
 
-    List<WorkoutExercise> findByIdAndWorkoutId(Long id, Long workoutId);
+    Optional<WorkoutExercise> findByIdAndWorkoutId(Long id, Long workoutId);
 
     boolean existsByWorkoutIdAndExerciseId(Long workoutId, Long exerciseId);
 
-    @Query(value = """
+    @Query("""
         SELECT e
         FROM Exercise e
-        WHERE e.muscleGroup
-        ILIKE %:muscleGroup%
-        """)
+        WHERE LOWER(e.muscleGroup) LIKE LOWER(CONCAT('%', :muscleGroup, '%'))
+    """)
     List<Exercise> findByMuscleGroupContainingIgnoreCase(@Param("muscleGroup") String muscleGroup);
+
 
     @Query(value = """
         SELECT e

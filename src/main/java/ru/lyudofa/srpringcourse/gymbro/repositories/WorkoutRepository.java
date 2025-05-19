@@ -14,8 +14,6 @@ import java.util.Optional;
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
     Optional<Workout> findByNameIgnoreCase(String name);
 
-    boolean existsByStartTime(LocalDateTime startTime);
-
     List<Workout> findByUserId(Long userId);
 
     List<Workout> findByUserIdAndStartTimeBetween(

@@ -17,10 +17,10 @@ public class Set {
     private Long id;
 
     @Column(name = "set_number", nullable = false)
-    private Long setNumber;
+    private Integer setNumber;
 
     @Column(nullable = false)
-    private Long reps;
+    private Integer reps;
 
     @Column(name = "weight_kg", precision = 5, scale = 2)
     private Double weightKg;
