@@ -41,7 +41,7 @@ public class WorkoutService {
     }
 
     // Обновить тренировку (название, время, заметки)
-    public Workout updateWorkout(Long workoutId, String name, LocalDateTime startTime, LocalDateTime endTime, String notes) {
+    public Workout updateWorkout(Integer workoutId, String name, LocalDateTime startTime, LocalDateTime endTime, String notes) {
         Workout workout = workoutRepository.findById(workoutId)
                 .orElseThrow(() -> new IllegalArgumentException("Workout not found"));
 
@@ -54,7 +54,7 @@ public class WorkoutService {
     }
 
     // Удалить тренировку
-    public void deleteWorkout(Long workoutId) {
+    public void deleteWorkout(Integer workoutId) {
         if (!workoutRepository.existsById(workoutId)) {
             throw new IllegalArgumentException("Workout not found");
         }

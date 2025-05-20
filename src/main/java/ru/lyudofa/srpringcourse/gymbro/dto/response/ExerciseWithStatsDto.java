@@ -11,13 +11,13 @@ public record ExerciseWithStatsDto(
         int totalWorkouts,
         LocalDateTime lastUsed
 ) {
-    public static ExerciseWithStatsDto fromEntity(Exercise exercise, int totalWorkouts, LocalDateTime lastUsed) {
-        return new ExerciseWithStatsDto(
-                exercise.getId(),
-                exercise.getName(),
-                exercise.getMuscleGroup(),
-                totalWorkouts,
-                lastUsed
-        );
-    }
+//    public static ExerciseWithStatsDto fromEntity(Exercise exercise, int totalWorkouts, LocalDateTime lastUsed) {
+//        return new ExerciseWithStatsDto(
+//                exercise.getId(),
+//                exercise.getName(),
+//                exercise.getMuscleGroup(),
+//                totalWorkouts,
+//                lastUsed
+//        );
+//    }
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout (~{::body})">
+<body>
+<div>
+    <h1>Мои тренировки</h1>
+    <a th:href="@{/workouts/new}">Добавить тренировку</a>
+    <ul>
+        <li th:each="workout : ${workouts}">
+            <span th:text="${workout.name}"></span> —
+            <span th:text="${#temporals.format(workout.startTime, 'dd.MM.yyyy HH:mm')}"></span>
+            <a th:href="@{'/workouts/' + ${workout.id} + '/edit'}">Редактировать</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

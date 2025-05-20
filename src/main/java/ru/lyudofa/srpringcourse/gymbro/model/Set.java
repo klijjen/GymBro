@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class Set {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "set_number", nullable = false)
     private Integer setNumber;
@@ -22,11 +23,11 @@ public class Set {
     @Column(nullable = false)
     private Integer reps;
 
-    @Column(name = "weight_kg", precision = 5, scale = 2)
-    private Double weightKg;
+    @Column(name = "weight_kg")
+    private BigDecimal weightKg;
 
-    @Column(precision = 3, scale = 1)
-    private Double rpe;
+    @Column
+    private BigDecimal rpe;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
@@ -34,7 +35,8 @@ public class Set {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "workout_exercise_id")
-    private WorkoutExercise workoutExercise;
+    private WorkoutExercise workoutExercises;
+
 }

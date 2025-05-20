@@ -13,15 +13,15 @@ public record SetResponseDto(
         String notes,
         LocalDateTime createdAt
 ) {
-    public static SetResponseDto fromEntity(Set set) {
-        return new SetResponseDto(
-                set.getId(),
-                set.getSetNumber(),
-                set.getReps(),
-                set.getWeightKg(),
-                set.getRpe(),
-                set.getNotes(),
-                set.getCreatedAt()
-        );
-    }
+//    public static SetResponseDto fromEntity(Set set) {
+//        return new SetResponseDto(
+//                set.getId(),
+//                set.getSetNumber(),
+//                set.getReps(),
+//                set.getWeightKg(),
+//                set.getRpe(),
+//                set.getNotes(),
+//                set.getCreatedAt()
+//        );
+//    }
 }

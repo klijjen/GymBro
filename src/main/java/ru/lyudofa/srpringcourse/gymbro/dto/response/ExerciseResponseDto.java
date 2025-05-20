@@ -14,16 +14,16 @@ public record ExerciseResponseDto(
     LocalDateTime updatedAt,
     UserBasicInfoDto createdBy
 ) {
-    public static ExerciseResponseDto fromEntity(Exercise exercise) {
-        return new ExerciseResponseDto(
-                exercise.getId(),
-                exercise.getName(),
-                exercise.getDescription(),
-                exercise.getMuscleGroup(),
-                exercise.getEquipment(),
-                exercise.getCreatedAt(),
-                exercise.getUpdatedAt(),
-                UserBasicInfoDto.fromEntity(exercise.getCreatedBy())
-        );
-    }
+//    public static ExerciseResponseDto fromEntity(Exercise exercise) {
+//        return new ExerciseResponseDto(
+//                exercise.getId(),
+//                exercise.getName(),
+//                exercise.getDescription(),
+//                exercise.getMuscleGroup(),
+//                exercise.getEquipment(),
+//                exercise.getCreatedAt(),
+//                exercise.getUpdatedAt(),
+//                UserBasicInfoDto.fromEntity(exercise.getCreatedBy())
+//        );
+//    }
 }

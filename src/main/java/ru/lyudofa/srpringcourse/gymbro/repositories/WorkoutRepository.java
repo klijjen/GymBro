@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface WorkoutRepository extends JpaRepository<Workout, Long> {
+public interface WorkoutRepository extends JpaRepository<Workout, Integer> {
     Optional<Workout> findByNameIgnoreCase(String name);
 
-    List<Workout> findByUserId(Long userId);
+    List<Workout> findByUserId(Integer userId);
 
     List<Workout> findByUserIdAndStartTimeBetween(
             Long userId,

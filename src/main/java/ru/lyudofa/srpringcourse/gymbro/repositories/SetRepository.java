@@ -15,19 +15,19 @@ import java.util.Optional;
 
 @Repository
 public interface SetRepository extends JpaRepository<Set, Long> {
-    List<Set> findByWorkoutExerciseId(Long workoutExerciseId);
+    List<Set> findByWorkoutExercisesId(Integer workoutExercises_id);
 
-    @Query("SELECT s FROM Set s WHERE s.workoutExercise.id = :exerciseId ORDER BY s.setNumber")
+    @Query("SELECT s FROM Set s WHERE s.workoutExercises.id = :exerciseId ORDER BY s.setNumber")
     List<Set> findOrderedSetsByExercise(@Param("exerciseId") Long workoutExerciseId);
 
     // 2. Методы для аналитики
-    @Query("SELECT MAX(s.weightKg) FROM Set s WHERE s.workoutExercise.exercise.id = :exerciseId")
+    @Query("SELECT MAX(s.weightKg) FROM Set s WHERE s.workoutExercises.exercise.id = :exerciseId")
     Optional<Double> findMaxWeightByExercise(@Param("exerciseId") Long exerciseId);
 
     @Query("""
         SELECT s 
         FROM Set s 
-        WHERE s.workoutExercise.workout.user.id = :userId AND s.workoutExercise.exercise.id = :exerciseId 
+        WHERE s.workoutExercises.workout.user.id = :userId AND s.workoutExercises.exercise.id = :exerciseId 
         ORDER BY s.createdAt DESC
         """)
     List<Set> findRecentSetsByUserAndExercise(@Param("userId") Long userId,
@@ -39,8 +39,8 @@ public interface SetRepository extends JpaRepository<Set, Long> {
     void updateWeight(@Param("id") Long setId, @Param("weight") Double weight);
 
     @Modifying
-    @Query("DELETE FROM Set s WHERE s.workoutExercise.id = :workoutExerciseId")
+    @Query("DELETE FROM Set s WHERE s.workoutExercises.id = :workoutExerciseId")
     void deleteAllByWorkoutExerciseId(@Param("workoutExerciseId") Long workoutExerciseId);
 
-    boolean existsByWorkoutExerciseAndSetNumber(WorkoutExercise workoutExercise, Integer setNumber);
+    boolean existsByWorkoutExercisesAndSetNumber(WorkoutExercise workoutExercise, Integer setNumber);
 }

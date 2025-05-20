@@ -7,11 +7,11 @@ public record ExerciseShortInfoDto(
         String name,
         String muscleGroup
 ) {
-    public static ExerciseShortInfoDto fromEntity(Exercise exercise) {
-        return new ExerciseShortInfoDto(
-                exercise.getId(),
-                exercise.getName(),
-                exercise.getMuscleGroup()
-        );
-    }
+//    public static ExerciseShortInfoDto fromEntity(Exercise exercise) {
+//        return new ExerciseShortInfoDto(
+//                exercise.getId(),
+//                exercise.getName(),
+//                exercise.getMuscleGroup()
+//        );
+//    }
 }

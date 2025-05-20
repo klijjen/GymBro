@@ -14,10 +14,10 @@ import java.util.List;
 public class WorkoutExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
-    private Long orderIndex;
+    private Integer orderIndex;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
@@ -33,7 +33,7 @@ public class WorkoutExercise {
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
 
-    @OneToMany(mappedBy = "workoutExercises", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workoutExercises")
     private List<Set> sets;
 
 }

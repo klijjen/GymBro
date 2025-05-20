@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Профиль</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+  <h1>Профиль пользователя</h1>
+
+  <table class="table table-bordered mt-3">
+
+    <tr>
+      <th>Имя пользователя</th>
+      <td th:text="${user.username}">username</td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td th:text="${user.email}">email@example.com</td>
+    </tr>
+    <tr>
+      <th>Дата регистрации</th>
+      <td th:text="${#temporals.format(user.createdAt, 'dd.MM.yyyy HH:mm')}">дата</td>
+    </tr>
+  </table>
+
+  <a th:href="@{/user/edit}" class="btn btn-primary">Редактировать профиль</a>
+</div>
+</body>
+</html>

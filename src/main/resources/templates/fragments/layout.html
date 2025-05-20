@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">GymBro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/workouts}">Тренировки</a>
+        <a th:href="@{/exercises}">Упражнения</a>
+        <a th:href="@{/stats}">Статистика</a>
+        <a th:href="@{/profile}">Профиль</a>
+    </nav>
+</header>
+
+<main>
+    <div th:insert="~{::body}"></div>
+</main>
+
+<footer>
+    <p>© 2025 GymBro</p>
+</footer>
+</body>
+</html>

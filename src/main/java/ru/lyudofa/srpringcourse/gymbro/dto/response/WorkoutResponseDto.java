@@ -16,19 +16,19 @@ public record WorkoutResponseDto(
         UserBasicInfoDto user,
         List<WorkoutExerciseResponseDto> exercises
 ) {
-    public static WorkoutResponseDto fromEntity(Workout workout) {
-        return new WorkoutResponseDto(
-                workout.getId(),
-                workout.getName(),
-                workout.getNotes(),
-                workout.getStartTime(),
-                workout.getEndTime(),
-                workout.getCreatedAt(),
-                workout.getEndTime() != null,
-                UserBasicInfoDto.fromEntity(workout.getUser()),
-                workout.getExercises().stream()
-                        .map(WorkoutExerciseResponseDto::fromEntity)
-                        .toList()
-        );
-    }
+//    public static WorkoutResponseDto fromEntity(Workout workout) {
+//        return new WorkoutResponseDto(
+//                workout.getId(),
+//                workout.getName(),
+//                workout.getNotes(),
+//                workout.getStartTime(),
+//                workout.getEndTime(),
+//                workout.getCreatedAt(),
+//                workout.getEndTime() != null,
+//                UserBasicInfoDto.fromEntity(workout.getUser()),
+//                workout.getExercises().stream()
+//                        .map(WorkoutExerciseResponseDto::fromEntity)
+//                        .toList()
+//        );
+//    }
 }

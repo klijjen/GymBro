@@ -11,13 +11,13 @@ public record UserResponseDto(
         LocalDateTime createdAt,
         Integer workoutsCount
 ) {
-    public UserResponseDto fromEntity(User user) {
-        return new UserResponseDto(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getCreatedAt(),
-                user.getWorkouts().size()
-        );
-    }
+//    public UserResponseDto fromEntity(User user) {
+//        return new UserResponseDto(
+//                user.getId(),
+//                user.getUsername(),
+//                user.getEmail(),
+//                user.getCreatedAt(),
+//                user.getWorkouts().size()
+//        );
+//    }
 }

@@ -22,16 +22,16 @@ public class SetService {
 
     public Set createSet(Set set) {
         // Убедимся, что такой номер подхода не повторяется в упражнении
-        boolean exists = setRepository.existsByWorkoutExerciseAndSetNumber(
-                set.getWorkoutExercise(), set.getSetNumber());
+        boolean exists = setRepository.existsByWorkoutExercisesAndSetNumber(
+                set.getWorkoutExercises(), set.getSetNumber());
         if (exists) {
             throw new IllegalArgumentException("Set number already exists in this exercise");
         }
         return setRepository.save(set);
     }
 
-    public List<Set> getSetsByWorkoutExerciseId(Long workoutExerciseId) {
-        return setRepository.findByWorkoutExerciseId(workoutExerciseId);
+    public List<Set> getSetsByWorkoutExerciseId(Integer workoutExerciseId) {
+        return setRepository.findByWorkoutExercisesId(workoutExerciseId);
     }
 
     public Optional<Set> findById(Long id) {
@@ -78,6 +78,6 @@ public class SetService {
     // === Вспомогательное ===
 
     public boolean existsByWorkoutExerciseAndSetNumber(WorkoutExercise we, int setNumber) {
-        return setRepository.existsByWorkoutExerciseAndSetNumber(we, setNumber);
+        return setRepository.existsByWorkoutExercisesAndSetNumber(we, setNumber);
     }
 }

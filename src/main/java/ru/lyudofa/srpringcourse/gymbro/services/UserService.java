@@ -1,5 +1,6 @@
 package ru.lyudofa.srpringcourse.gymbro.services;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,8 +60,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
+    public void updateProfile(String currentUsername, User updatedUserData) {
+        User existingUser = userRepository.findByUsername(currentUsername).orElseThrow(() -> new UsernameNotFoundException("User not found: " + currentUsername));
+
+        existingUser.setUsername(updatedUserData.getUsername());
+        existingUser.setEmail(updatedUserData.getEmail());
+
+        userRepository.save(existingUser);
+    }
+
     public List<User> searchByUsername(String usernamePart) {
         return userRepository.findByUsernameContainingIgnoreCase(usernamePart);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
 }

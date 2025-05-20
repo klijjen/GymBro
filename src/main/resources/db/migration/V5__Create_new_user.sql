@@ -1,0 +1,6 @@
+-- INSERT INTO users (username, email, password_hash, created_at, updated_at)
+-- VALUES
+--     ('user1', 'user1@example.com', 'hashed_password_1', NOW(), NOW()),
+--     ('user2', 'user2@example.com', 'hashed_password_2', NOW(), NOW()),
+--     ('another_user', 'another@test.org', 'secure_hash_xyz', NOW(), NOW());
+--     -- Добавьте здесь столько строк, сколько вам нужно для дополнительных пользователей
