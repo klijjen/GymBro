@@ -2,7 +2,9 @@ package ru.lyudofa.srpringcourse.gymbro.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,15 +26,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank(message = "Имя пользователя обязательно")
+    @Size(min = 3, max = 50, message = "Имя пользователя должно быть от 3 до 50 символов")
     private String username;
 
-    @Email
-    @NotNull
-    @Column(unique = true)
+    @Email(message = "Неверный формат email")
+    @NotBlank(message = "Email обязателен")
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Пароль обязателен")
+    @Size(min = 6, message = "Пароль должен быть не менее 6 символов")
+    @Transient
+    private String password;
+
     private String passwordHash;
 
     @CreationTimestamp

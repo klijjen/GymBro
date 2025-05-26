@@ -21,28 +21,39 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(String username, String email, String rawPassword) {
-        if (userRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("Username already taken");
+    public User getUserById(Integer userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public void registerUser(User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalArgumentException("Пользователь с таким именем уже существует.");
         }
-        if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Email already taken");
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Пользователь с таким email уже существует.");
+        }
+        if (user.getPassword() == null || user.getPassword().isBlank()) {
+            throw new IllegalArgumentException("Пароль обязателен.");
         }
 
-        User user = User.builder()
-                .username(username)
-                .email(email)
-                .passwordHash(passwordEncoder.encode(rawPassword))
-                .build();
-
-        return userRepository.save(user);
+        user.setPasswordHash(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+    public void changePassword(Integer userId, String oldPassword, String newPassword) {
+        User user = getUserById(userId);
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new IllegalArgumentException("Invalid old password");
+        }
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
 
-    public User updateUser(Long userId, String newEmail, String newPassword) {
+    public User updateUser(Integer userId, String newEmail, String newPassword) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -78,4 +89,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public void deleteUser(Integer id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("User not found");
+        }
+        userRepository.deleteById(id);
+    }
 }
