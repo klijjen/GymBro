@@ -29,6 +29,7 @@ public class AuthService {
     }
 
     public boolean isTokenValid(String token) {
+        System.out.println("Checking token: " + token);
         return sessions.containsKey(token);
     }
 

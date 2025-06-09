@@ -58,13 +58,35 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@RequestHeader("Authorization") String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        System.out.println();
+        System.out.println("!!!!");
         if (!authService.isTokenValid(token)) {
             return ResponseEntity.status(401).body(Map.of("error", "Недействительный токен"));
         }
-
         String username = authService.getUsernameByToken(token);
         User user = userService.findByUsername(username).orElseThrow();
         return ResponseEntity.ok(user);
+//        try {
+//            String username = authService.getUsernameByToken(token);
+//            User user = userService.findByUsername(username).orElseThrow();
+//            return ResponseEntity.ok(Map.of(
+//                    "id", user.getId(),
+//                    "username", user.getUsername(),
+//                    "email", user.getEmail(),
+//                    "createdAt", user.getCreatedAt()
+//            ));
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(401).build();
+//        }
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        System.out.println("Контроллер вызван!");
+        return ResponseEntity.ok("OK");
     }
 
 
