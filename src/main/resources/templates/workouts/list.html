@@ -1,19 +1,37 @@
 <!DOCTYPE html>
-<meta charset="UTF-8" />
-
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="fragments/header :: layout (~{::body})">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" lang="ru">
+    <title>Мои тренировки</title>
+</head>
 <body>
-<div>
-    <h1>Мои тренировки</h1>
-    <a th:href="@{/workouts/new}">Добавить тренировку</a>
-    <ul>
-        <li th:each="workout : ${workouts}">
-            <span th:text="${workout.name}"></span> —
-            <span th:text="${#temporals.format(workout.startTime, 'dd.MM.yyyy HH:mm')}"></span>
-            <a th:href="@{'/workouts/' + ${workout.id} + '/edit'}">Редактировать</a>
-        </li>
-    </ul>
-</div>
+<h1>Мои тренировки</h1>
+
+<a href="/workouts/new">➕ Новая тренировка</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>Название</th>
+        <th>Время начала</th>
+        <th>Время окончания</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="workout : ${workouts}">
+        <td th:text="${workout.name}"></td>
+        <td th:text="${workout.startTime}"></td>
+        <td th:text="${workout.endTime}"></td>
+        <td>
+            <a th:href="@{'/workouts/' + ${workout.id}}">👁️</a>
+            <a th:href="@{'/workouts/' + ${workout.id} + '/edit'}">✏️</a>
+            <form th:action="@{'/workouts/' + ${workout.id} + '/delete'}" method="post" style="display:inline">
+                <button type="submit" onclick="return confirm('Удалить тренировку?')">🗑️</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

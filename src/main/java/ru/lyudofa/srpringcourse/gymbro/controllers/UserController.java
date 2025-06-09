@@ -2,60 +2,69 @@ package ru.lyudofa.srpringcourse.gymbro.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.lyudofa.srpringcourse.gymbro.model.User;
+import ru.lyudofa.srpringcourse.gymbro.services.AuthService;
 import ru.lyudofa.srpringcourse.gymbro.services.UserService;
 
-@Controller
+import java.util.List;
+import java.util.Map;
+
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+    private final AuthService authService;
 
     @GetMapping
-    public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("title", "Список пользователей");
-        return "users/list";
-    }
-
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        if (!model.containsAttribute("user")) {
-            model.addAttribute("user", new User());
-        }
-        return "users/register";
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.findAll());
     }
 
     @PostMapping("/register")
-    public String registerUser(
-            @Valid @ModelAttribute("user") User user,
-            BindingResult bindingResult,
-            Model model,
-            RedirectAttributes redirectAttributes
-    ) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "users/register";
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
-
         try {
-            userService.registerUser(user);
-            redirectAttributes.addFlashAttribute("successMessage", "Регистрация прошла успешно!");
-            return "redirect:/users/login";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("registrationError", e.getMessage());
-            return "users/register";
+            User registeredUser = userService.registerUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
-    @GetMapping("/login")
-    public String loginForm() {
-        return "users/login";
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> credentials) {
+        try {
+            String token = authService.login(
+                    credentials.get("username"),
+                    credentials.get("password")
+            );
+            return ResponseEntity.ok(Map.of("token", token));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile(@RequestHeader("Authorization") String token) {
+        if (!authService.isTokenValid(token)) {
+            return ResponseEntity.status(401).body(Map.of("error", "Недействительный токен"));
+        }
+
+        String username = authService.getUsernameByToken(token);
+        User user = userService.findByUsername(username).orElseThrow();
+        return ResponseEntity.ok(user);
     }
 
 

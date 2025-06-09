@@ -1,11 +1,13 @@
 package ru.lyudofa.srpringcourse.gymbro.services;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.lyudofa.srpringcourse.gymbro.model.User;
 import ru.lyudofa.srpringcourse.gymbro.repositories.UserRepository;
+import ru.lyudofa.srpringcourse.gymbro.utils.PasswordUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +28,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
-    public void registerUser(User user) {
+    public User registerUser(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new IllegalArgumentException("Пользователь с таким именем уже существует.");
         }
@@ -36,9 +38,9 @@ public class UserService {
         if (user.getPassword() == null || user.getPassword().isBlank()) {
             throw new IllegalArgumentException("Пароль обязателен.");
         }
+        user.setPasswordHash(PasswordUtils.hashPassword(user.getPassword()));
 
-        user.setPasswordHash(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public Optional<User> findByUsername(String username) {
