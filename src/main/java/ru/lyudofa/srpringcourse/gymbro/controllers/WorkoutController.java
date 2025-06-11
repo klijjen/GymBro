@@ -1,23 +1,23 @@
 package ru.lyudofa.srpringcourse.gymbro.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.lyudofa.srpringcourse.gymbro.model.User;
 import ru.lyudofa.srpringcourse.gymbro.model.Workout;
+import ru.lyudofa.srpringcourse.gymbro.services.AuthService;
 import ru.lyudofa.srpringcourse.gymbro.services.UserService;
 import ru.lyudofa.srpringcourse.gymbro.services.WorkoutService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,37 +26,25 @@ public class WorkoutController {
 
     private final WorkoutService workoutService;
     private final UserService userService;
+    private final AuthService authService;
 
     @GetMapping
-    public String listUserWorkouts(@AuthenticationPrincipal UserDetails userDetails,
-                                   Model model) {
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Пользователь ненайлен"));
+    public ResponseEntity<?> listUserWorkouts(@RequestHeader("Authorization") String token) {
+        User user = userService.findByUsername(authService.getUsernameByToken(token))
+                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
 
         List<Workout> workouts = workoutService.getWorkoutsByUser(user);
-        model.addAttribute("workouts", workouts);
-        return "workouts/list";
-    }
-
-    @GetMapping("/new")
-    public String showCreateForm(Model model) {
-        model.addAttribute("workout", new Workout());
-        return "workouts/create";
+        return ResponseEntity.ok(workouts);
     }
 
     @PostMapping
-    public String createWorkout(@AuthenticationPrincipal UserDetails userDetails,
-                                @RequestParam String name,
-                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
-                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
-                                @RequestParam(required = false) String notes,
-                                RedirectAttributes redirectAttributes) {
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Пользователь ненайден"));
-        workoutService.createWorkout(user, name, startTime, endTime, notes);
-        redirectAttributes.addFlashAttribute("successMessage", "Тренировка создана");
-        return "redirect:/workouts";
+    public ResponseEntity<?> createWorkout(@RequestHeader("Authorization") String token, @RequestBody Workout request) {
+        User user = userService.findByUsername(authService.getUsernameByToken(token))
+                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
 
+        workoutService.createWorkout(user, request.getName(), request.getStartTime(),
+                request.getEndTime(), request.getNotes());
 
+        return ResponseEntity.ok(Map.of("message", "Тренировка успешно создана"));
     }
 }

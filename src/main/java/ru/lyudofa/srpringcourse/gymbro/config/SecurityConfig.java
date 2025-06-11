@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/login").permitAll()
                         .requestMatchers("/users/profile").permitAll()
                         .requestMatchers("/users").permitAll()
+                        .requestMatchers("/workouts").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable()) // (3) Отключаем форму входа (если API)

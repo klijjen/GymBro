@@ -61,8 +61,6 @@ public class UserController {
         if (token.startsWith("Bearer ")) {
             token = token.substring(7);
         }
-        System.out.println();
-        System.out.println("!!!!");
         if (!authService.isTokenValid(token)) {
             return ResponseEntity.status(401).body(Map.of("error", "Недействительный токен"));
         }
