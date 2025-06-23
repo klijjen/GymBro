@@ -36,4 +36,9 @@ public class AuthService {
     public String getUsernameByToken(String token) {
         return sessions.get(token);
     }
+
+    public User getUserByToken(String token) {
+        String username = sessions.get(token);
+        return userService.findByUsername(username).orElse(null);
+    }
 }

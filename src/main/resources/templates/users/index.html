@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymBro - Фитнес трекер</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1>GymBro</h1>
+        <div id="auth-status"></div>
+    </header>
+
+    <div class="auth-forms">
+        <!-- Форма регистрации -->
+        <div class="form-container" id="register-form-container">
+            <h2>Регистрация</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="username">Логин:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <button type="submit" class="btn">Зарегистрироваться</button>
+            </form>
+        </div>
+
+        <!-- Форма авторизации -->
+        <div class="form-container" id="login-form-container">
+            <h2>Вход</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-username">Логин:</label>
+                    <input type="text" id="login-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль:</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn">Войти</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Секция профиля -->
+    <div class="profile-section" id="profile-section" style="display: none;">
+        <h2>Ваш профиль</h2>
+        <div id="profile-data"></div>
+        <button id="logout-btn" class="btn">Выйти</button>
+    </div>
+
+    <!-- Список пользователей -->
+    <div class="users-section">
+        <h2>Список пользователей</h2>
+        <div id="users-list"></div>
+    </div>
+</div>
+
+<script src="App.js"></script>
+</body>
+</html>
