@@ -85,13 +85,11 @@ public class UserController {
     private final UserService userService;
     private final AuthService authService;
 
-    // Получить список всех пользователей (можно закрыть для обычных пользователей позже)
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
 
-    // Регистрация нового пользователя
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user) {
         try {
@@ -102,7 +100,6 @@ public class UserController {
         }
     }
 
-    // Аутентификация: возвращает сессионный токен
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> credentials) {
         try {
@@ -115,15 +112,12 @@ public class UserController {
             return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
         }
     }
-
-    // Профиль текущего авторизованного пользователя
     @GetMapping("/profile")
     public ResponseEntity<User> getProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(user);
     }
 
-    // Тестовый эндпоинт
     @GetMapping("/test")
     public ResponseEntity<String> test() {
         System.out.println("Контроллер вызван!");
