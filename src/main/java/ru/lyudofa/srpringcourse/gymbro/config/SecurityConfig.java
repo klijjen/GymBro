@@ -29,8 +29,8 @@ public class SecurityConfig {
                         .requestMatchers("/workouts").permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(tokenAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
-                .formLogin(form -> form.disable()) // (3) Отключаем форму входа (если API)
-                .httpBasic(Customizer.withDefaults()); // (4) Можно включить HTTP Basic Auth для остальных эндпоинтов
+                .formLogin(form -> form.disable())
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
     @Bean

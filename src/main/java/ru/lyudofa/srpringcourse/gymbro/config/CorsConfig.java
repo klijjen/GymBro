@@ -13,8 +13,8 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8080") // Разрешаем запросы с фронтенда
-                        .allowedMethods("*"); // Разрешаем все HTTP-методы
+                        .allowedOrigins("http://localhost:8080")
+                        .allowedMethods("*");
             }
         };
     }
